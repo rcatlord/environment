@@ -1,0 +1,246 @@
+---
+title: "openair"
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 4
+    theme: materia
+    code-overflow: wrap
+knitr: 
+  opts_chunk:
+    warning: false
+    message: false   
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE}
+library(reactable)
+```
+
+The `openair` package [@openair] allows you to retrieve and process data from air quality monitoring sites across the UK.
+
+### Install openair
+
+The `openair` package can be downloaded from [CRAN](https://cran.r-project.org/web/packages/openair/index.html).
+
+```{r, eval=FALSE}
+install.packages("openair")
+```
+
+### Load openair
+
+Once you have installed the `openair` package you can load it into the R session. We'll also load the `tidyverse` package for data manipulation.
+
+```{r}
+library(openair)
+library(tidyverse)
+```
+
+### Access site metadata
+
+There are several air quality monitoring networks across the UK.
+
+-   [Automatic Urban and Rural Network](https://uk-air.defra.gov.uk/networks/network-info?view=aurn) (AURN)
+-   [Air Quality England](https://www.airqualityengland.co.uk/) (AQE)
+-   [Scottish Air Quality Network](http://www.scottishairquality.scot/) (SAQN)
+-   [Welsh Air Quality Network](https://airquality.gov.wales/) (WAQN)
+-   [Northern Ireland Air](https://www.airqualityni.co.uk/) (NI)
+-   [London Air Quality Network](https://www.londonair.org.uk/LondonAir/Default.aspx) (KCL)
+
+Let's pull out site information on the [Air Quality England](https://www.airqualityengland.co.uk/) network. We can use the [`importMeta()`](https://davidcarslaw.github.io/openair/reference/importMeta.html) function to return site code, site name, coordinates and site type for each network or`source` e.g. "aurn", "aqe", or "ni". If we include the argument `all = TRUE` additional information on pollutants, local authority and status are supplied.
+
+```{r}
+aqe <- importMeta(source = "aqe", all = TRUE)
+```
+
+*Random sample of sites from AQE network*
+
+```{r, echo=FALSE}
+reactable(sample_n(aqe, 5))
+```
+
+If we were interested in identifying active sites that measured PM<sub>2.5</sub> at the roadside in Greater Manchester we could run.
+
+```{r}
+aqe_gm <- filter(aqe, variable == "PM2.5", site_type == "Urban Traffic", end_date == "ongoing", local_authority %in% c("Bolton","Bury","Manchester","Oldham","Rochdale","Salford", "Stockport","Tameside","Trafford","Wigan"))
+```
+
+We could then map their spatial distribution.
+
+```{r}
+distinct(aqe_gm, site, .keep_all = TRUE) %>% 
+  sf::st_as_sf(coords = c(x = "longitude", y = "latitude"), crs = 4326) %>% 
+  mapview::mapview(layer.name = "Roadside sites measuring PM2.5")
+```
+
+### Import monitoring data
+
+To retrieve data from one or more monitoring site we need to feed the [`importAQE()`](https://davidcarslaw.github.io/openair/reference/import_ukaq_helper.html) function with a site code and year. Let's return all pollutants from the [TRF2](https://www.airqualityengland.co.uk/site/latest?site_id=TRF2) monitoring site which is along the A56 in Stretford. We can also restrict the data returned to the last 10 years using the `year` argument.
+
+```{r}
+trf2 <- importAQE(site = "TRF2", year = 2010:2022)
+```
+
+The data are returned at hourly intervals with measurements for pollutants including NO<sub>2</sub> and PM<sub>10</sub>. 
+
+*First 10 rows of monitoring data from Trafford A56 (TRF2)*
+```{r, echo=FALSE}
+reactable(slice(trf2, 1:10))
+```
+
+### Inspect monitoring data
+
+Before we can visualise or analyse the data it is advisable to check it using the function `summaryPlot`. The plot in the left panel shows a time series of daily mean values for each continuous variable. Blue indicates the presence of data and red missing data. Summary statistics are also provided for each pollutant. The panel on the right is a histogram showing the distribution of values for each pollutant.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+summaryPlot(trf2)
+```
+
+It looks like there is a lot of missing data for nitrogen oxides during 2013.
+
+### Visualise monitoring data
+
+There are a wide variety of graphics in the `openair` package that are designed to facilitate interpretation of air quality data. As sites on the Air Quality England network don't include wind speed and direction variables we will not be exploring these graphics, e.g. ([`windRose()`](https://davidcarslaw.github.io/openair/reference/windRose.html) and [`polarAnnulus()`](https://davidcarslaw.github.io/openair/reference/polarAnnulus.html)). The interested reader can learn more about these graphical types and when to use them in [Carslaw & Davison (2023)](https://bookdown.org/david_carslaw/openair).  
+
+#### Time series plotting
+
+The [`timePlot()`](https://davidcarslaw.github.io/openair/reference/timePlot.html) function creates highly customisable time series plots of pollutant concentrations.
+
+Let's plot annual mean concentrations of NO<sub>2</sub> and PM<sub>10</sub> at the Trafford A56 (TRF2) monitoring site between 2010 and 2022. We'll also normalise the data so that it is indexed from the start of 2010.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+timePlot(trf2, pollutant = c("no2", "pm10"), avg.time = "year", normalise = "1/1/2010", group = TRUE, lwd = 2, ylim = c(0,120))
+```
+
+Annual concentrations of NO<sub>2</sub> and PM<sub>10</sub> have both declined since 2010. However, the rate of decline in PM<sub>10</sub> is less pronounced than NO<sub>2</sub> and seems to have plateaued since the mid-2010s.
+
+Let's look at seasonal patterns between NO<sub>2</sub> and PM<sub>10</sub> by selecting a narrower time frame with the [`selectByDate()`](https://davidcarslaw.github.io/openair/reference/selectByDate.html) function and use "month" as the averaging time. We'll also allow the y-axis scales to be free and drop `group = TRUE` so that the plot is faceted by pollutant.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+timePlot(selectByDate(trf2, year = 2020:2022), pollutant = c("no2", "pm10"), avg.time = "month", y.relation = "free", lwd = 2)
+```
+
+There is clear seasonal variation in concentrations of NO<sub>2</sub> with peaks in the winter and troughs in the summer. PM<sub>10</sub> concentrations seems to peak at springtime. 
+
+#### Temporal variations
+
+The [`timeVariation()`](https://davidcarslaw.github.io/openair/reference/timeVariation.html) function plots temporal variation in pollutant concentrations. Four plots are generated: mean hour / day of the week, hour, day of the week, and month variation.
+
+Let's plot diurnal variation in PM<sub>10</sub> concentrations at the Trafford A56 (TRF2) site.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+timeVariation(trf2, pollutant = "pm10", local.tz = "Europe/London",
+              ylab = "pm10 (ug/m3)")
+```
+
+It seems that PM<sub>10</sub> concentrations increase sharply from 6am and only begin to decline after around 7pm. Weekday levels of PM<sub>10</sub> are significantly higher than weekend concentrations with a peak on Thursdays. Levels of PM<sub>10</sub> seem to be highest in March with lower concentrations during the summer months.
+
+#### Smooth trend estimates
+
+The [`smoothTrend()`](https://davidcarslaw.github.io/openair/reference/smoothTrend.html) function calculates monthly mean concentrations of pollutants and fits a smooth line. The shading shows the estimated 95% confidence intervals for the fitted line.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+smoothTrend(trf2, pollutant = "pm10", main = "Monthly mean deseasonalised NO2", deseason = TRUE)
+```
+
+Seasonal variation has been removed with `deseason = TRUE` and we can see that concentrations of PM<sub>10</sub> have been largely flat since 2014.
+
+#### Heat maps
+
+The [`calenderPlot()`](https://davidcarslaw.github.io/openair/reference/calendarPlot.html) function generates a calendar heatmap with daily mean concentrations for a chosen year.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+calendarPlot(trf2, pollutant = "pm10", year = "2022", main = "PM10")
+```
+
+Here we can see that the highest daily mean concentrations of PM10 at the Trafford A56 site we on days during March and December 2022.
+
+### Air quality compliance
+
+The `openair` package allows us to change the averaging period of the data retrieved from each monitoring site so that we compare pollutant concentrations with national air quality limits. 
+
+| Pollutant           | Averaging Period | Limit |
+|:--------------------|:-----------------|:------|
+| NO<sub>2</sub>     | Annual mean      | 40 µg/m<sup>-3</sup> |
+| NO<sub>2</sub>     | Hourly mean      | 200 µg/m<sup>-3</sup>, 18 permitted exceedances each year |
+| PM<sub>10</sub>     | Annual mean      | 40 µg/m<sup>-3</sup> |
+| PM<sub>10</sub>     | 24-hour mean     | 50 µg/m<sup>-3</sup>, with 35 permitted exceedances each year |
+| PM<sub>2.5</sub>    | Annual mean      | 20 µg/m<sup>-3</sup> |
+
+: Pollutant metrics in the [UK’s Air Quality Standards Regulations](https://www.legislation.gov.uk/uksi/2010/1001/contents/made) {tbl-colwidths="[20,20,60]" .hover}
+
+#### Nitrogen dioxide (NO<sub>2</sub>)
+
+The annual mean concentration of NO<sub>2</sub> at the Trafford A56 (TRF2) monitoring site in 2022 was **`r round(pull(filter(importAQE(year = 2022, data_type = "annual", to_narrow = TRUE),code == "TRF2", species == "no2"),value),0)` µg/m<sup>-3</sup>**. This is below the annual mean concentration threshold of 40 µg/m<sup>-3</sup>.
+
+```{r, eval=FALSE}
+importAQE(year = 2022, data_type = "annual", to_narrow = TRUE) %>% 
+  filter(code == "TRF2", species == "no2") %>% 
+  pull(value)
+```
+
+1-hour mean concentrations of NO<sub>2</sub> exceeded 200 µg/m3 **`r count(filter(importAQE(site = "TRF2", year = 2022, data_type = "hourly"),no2 > 200))` times** at the Trafford A56 (TRF2) monitoring site in 2022. This is below the 1-hour mean threshold not to exceed 200 µg/m<sup>-3</sup> more than 18 times in a single year.
+
+```{r eval=FALSE}
+importAQE(site = "TRF2", year = 2022, data_type = "hourly") %>%
+  filter(no2 > 200) %>% 
+  count()
+```
+
+#### Particulate Matter (PM)
+
+The annual mean concentration of PM<sub>10</sub> at the Trafford A56 (TRF2) monitoring site in 2022 was **`r round(pull(filter(importAQE(year = 2022, data_type = "annual", to_narrow = TRUE),code == "TRF2", species == "pm10"),value),0)` µg/m**<sup>3</sup>. This is below the annual mean concentration threshold of 40 µg/m<sup>-3</sup>.
+
+```{r eval=FALSE}
+importAQE(year = 2022, data_type = "annual", to_narrow = TRUE) %>% 
+  filter(code == "TRF2", species == "pm10") %>% 
+  pull(value)
+```
+
+24-hour mean concentrations of PM<sub>10</sub> exceeded 50 µg/m<sup>-3</sup> **`r count(filter(importAQE(site = "TRF2", year = 2022, data_type = "daily"),pm10 > 50))` times** at the Trafford A56 (TRF2) monitoring site in 2022. This is below the 24-hour mean threshold not to exceed 50 µg/m<sup>-3</sup> more than 35 times in a single year.
+
+```{r eval=FALSE}
+importAQE(site = "TRF2", year = 2022, data_type = "daily") %>%
+  filter(pm10 > 50) %>% 
+  count()
+```
+
+We can use the `calenderPlot()` function to visualise these exceedances.
+
+```{r}
+#| out-width: 100%
+#| fig-format: svg
+calendarPlot(trf2, pollutant = "pm10", year = "2022", 
+             breaks = c(0, 50, 1000), 
+             labels = c("Not exceeded", "Exceeded"),
+             cols = c("#a6cee3", "#1f78b4"),
+             main = "Days PM10 levels exceeded Air Quality Strategy Standards")
+```
+
+The [Environmental Targets (Fine Particulate Matter) (England) Regulations 2023](https://www.legislation.gov.uk/uksi/2023/96/contents/made) require that by 2040 no monitoring station in England should exceed an annual mean PM<sub>2.5</sub> concentration of 10 µg/m<sup>-3</sup>. Let's see which monitoring stations exceeded those levels in 2022.
+
+```{r}
+importAQE(year = 2022, data_type = "annual", to_narrow = TRUE) %>% 
+  filter(species == "pm2.5", value > 10) %>%
+  arrange(desc(value)) %>% 
+  select(code, site, species, value) %>% 
+  mutate(value = round(value, 1)) %>% 
+  reactable()
+```
