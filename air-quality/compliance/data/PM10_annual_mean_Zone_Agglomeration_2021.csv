@@ -1,0 +1,44 @@
+﻿objectid,unique_code,name,pollutant_metric,maximum_value,unit,compliance_status,compliance_metric,globalid,shape_Length,shape_Area
+1,UK0001,Greater London Urban Area,PM10 annual mean Limit Value 2021,26,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{3D303534-DBDF-45CC-9C7E-7526B4A6B0C0},1924215.80187318,1630315288.99501
+2,UK0002,West Midlands Urban Area,PM10 annual mean Limit Value 2021,21,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{998A2E56-A448-489B-B7C7-F28F9EFBBA1F},666327.410350489,599662377.697963
+3,UK0003,Greater Manchester Urban Area,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{3E5D868A-1180-45AC-A5F3-C7DD5FE4F1C8},1311025.04600873,556466825.658004
+4,UK0004,West Yorkshire Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{D76EA5F8-077E-4F54-BCDA-27BE94BF7293},1285916.58838284,369966601.580566
+5,UK0005,Tyneside,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{683B64D0-74B3-422B-8342-619E3908D157},608272.376771677,210719249.25174
+6,UK0006,Liverpool Urban Area,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{DFE3A959-0F44-472E-8264-5341EEC957A8},305256.908820854,186061360.868969
+7,UK0007,Sheffield Urban Area,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{4C78051F-8BE3-4B2D-9B2B-3D1B3F568C24},419374.816844874,162190675.84324
+8,UK0008,Nottingham Urban Area,PM10 annual mean Limit Value 2021,21,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{429B3DA0-764B-4CAF-A321-8F63653BAD10},436618.161913162,158434918.161116
+9,UK0009,Bristol Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{39651151-F680-4916-AFE2-D409E1C3DCC0},316778.468058441,139755454.060475
+10,UK0010,Brighton/Worthing/Littlehampton,PM10 annual mean Limit Value 2021,15,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{A5E90F50-CAEC-4A37-9D95-E46B725159E0},241980.957221294,94090008.3542869
+11,UK0011,Leicester Urban Area,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{3718C36A-ACC3-4FCA-86A1-03D67A9EA845},215660.864434521,101640509.183915
+12,UK0012,Portsmouth Urban Area,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{AB33FD9E-4ADD-4FC5-9A2F-613BDBC68EEA},277913.401033606,94411471.888681
+13,UK0013,Teesside Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{EA06A986-90E1-47A8-8213-2B15322CD069},268300.380811507,114303033.398667
+14,UK0014,The Potteries,PM10 annual mean Limit Value 2021,21,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{E3F5F284-50AC-4A09-B2CA-45E454DB2943},320022.561398888,96638493.7269874
+15,UK0015,Bournemouth Urban Area,PM10 annual mean Limit Value 2021,17,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{BD1357FD-A29B-4A29-9161-6BA4816A5509},251849.342077123,108070011.0059
+16,UK0016,Reading/Wokingham Urban Area,PM10 annual mean Limit Value 2021,17,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{1350926F-71A9-41A2-8A66-18F483A88BD6},259025.822297437,93153131.1895689
+17,UK0017,Coventry/Bedworth,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{92FB3C9F-54D3-49FB-AD47-E486C16AC2C5},228377.589941263,75477131.7086832
+18,UK0018,Kingston upon Hull,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{A56C695A-795C-4BE0-A4B1-726747040660},144828.131798232,80386674.5916436
+19,UK0019,Southampton Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{6CADE928-5E51-4A10-A626-AA3A1116CE12},182667.610100662,72763328.1857934
+20,UK0020,Birkenhead Urban Area,PM10 annual mean Limit Value 2021,15,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{2AF40D20-E499-4297-9E3D-8653ABD56A55},205808.659555806,89081252.6538979
+21,UK0021,Southend Urban Area,PM10 annual mean Limit Value 2021,17,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{E2F255B5-C5FB-4566-8692-5FBF6DFD9A8F},142991.514576751,66833273.5808221
+22,UK0022,Blackpool Urban Area,PM10 annual mean Limit Value 2021,15,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{7D7A9346-CB29-4AFD-B214-677C851B513D},149487.381148489,65847099.3633596
+23,UK0023,Preston Urban Area,PM10 annual mean Limit Value 2021,17,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{3C410DFA-F513-44BE-B268-AFE325F2E8AE},285011.781083192,60444246.6523564
+24,UK0024,Glasgow Urban Area,PM10 annual mean Limit Value 2021,16,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{5FFD9FE9-5CCF-4533-98CA-0CA809CD7B9F},408662.287986469,371181137.360747
+25,UK0025,Edinburgh Urban Area,PM10 annual mean Limit Value 2021,16,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{12D119D9-9666-4390-A57E-A12BE7BF0376},114175.612590016,120107997.674062
+26,UK0026,Cardiff Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{F910C7A8-3D5E-4F57-98C2-4EBFE86E300C},196203.096669671,75550460.8311575
+27,UK0027,Swansea Urban Area,PM10 annual mean Limit Value 2021,25,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{22ECE8E6-8988-4FB4-9CF8-280B6FB828D3},365148.94139693,79703705.1851885
+28,UK0028,Belfast Metropolitan Urban Area,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{C20B7ECC-8E3E-418C-8EBD-A72E9E1A365C},277460.90331101,198130523.091352
+29,UK0029,Eastern,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{C0DF4C89-E33B-464F-8978-2AA182722440},2210565.64479357,19104559394.6904
+30,UK0030,South West,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{03FB1E10-F939-47DE-AA18-DEC1C3D7FA86},2743218.82663225,23566188737.735
+31,UK0031,South East,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{11F50FD7-DB1A-4449-AC3D-90F986E44E15},3643594.26603739,18657535924.9388
+32,UK0032,East Midlands,PM10 annual mean Limit Value 2021,21,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{E7485143-797F-468A-8C23-CF654B84B3AC},1684612.99306767,15370211448.3816
+33,UK0033,North West & Merseyside,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{F2D61EEA-0C7C-4E26-95B7-DF33A08EAE56},3535298.00795829,13189716555.2295
+34,UK0034,Yorkshire & Humberside,PM10 annual mean Limit Value 2021,19,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{07334566-C8BE-4868-8459-09BBC4B8923A},2858093.01858223,14789540030.5633
+35,UK0035,West Midlands,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{8D628CCD-9A82-4526-8977-B40726B4E839},2146678.93148484,12233037054.3492
+36,UK0036,North East,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{FA1FF072-0B6C-47B1-BA41-D1DFF7B28915},1568402.30125535,8249987661.31387
+37,UK0037,Central Scotland,PM10 annual mean Limit Value 2021,16,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{FC33D67D-D498-4982-A993-99F874EEB7B2},1834418.10344638,9620284827.79142
+38,UK0038,North East Scotland,PM10 annual mean Limit Value 2021,13,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{8B94115D-8156-4495-97D8-4EA1F742D812},1095339.37047783,18779326879.5982
+39,UK0039,Highland,PM10 annual mean Limit Value 2021,9,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{A6890859-675C-4FB1-9EAF-D1EFC6FDD2BB},9990044.0398994,38234358456.5575
+40,UK0040,Scottish Borders,PM10 annual mean Limit Value 2021,11,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{F639A88B-EB7B-4F64-963F-1974405269E2},1099238.46967631,11181066200.7782
+41,UK0041,South Wales,PM10 annual mean Limit Value 2021,20,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{15F3673A-4CDB-4934-A9B8-1460FC71E9F6},1954724.79603707,12206279572.1381
+42,UK0042,North Wales,PM10 annual mean Limit Value 2021,18,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{76D68054-9DAC-4851-A557-0EA8FE258EC4},1126135.47314491,8308163746.65288
+43,UK0043,Northern Ireland,PM10 annual mean Limit Value 2021,16,μg m⁻³,Compliant,Limit Value: 40 μg m⁻³,{D4285420-84B9-4FD7-AFC8-59CF5B917F7C},1428539.01069978,13931049267.7032
