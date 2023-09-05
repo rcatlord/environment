@@ -1,5 +1,6 @@
 
-
+## Climate and weather
+- [1km-gridded rainfall data](https://catalogue.ceda.ac.uk/uuid/46f8c1377f8849eeb8570b8ac9b26d86), Met Office
 
 ## Biodiversity
 - [Green Infrastructure Map](https://designatedsites.naturalengland.org.uk/GreenInfrastructure/Map.aspx), Natural England
