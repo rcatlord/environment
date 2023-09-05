@@ -2,6 +2,16 @@
 ## Climate and weather
 - [1km-gridded rainfall data](https://catalogue.ceda.ac.uk/uuid/46f8c1377f8849eeb8570b8ac9b26d86), Met Office
 
+## Emissions
+
+## Drivers
+
+## Impacts
+
+## Mitigation
+
+## Adaptation
+
 ## Biodiversity
 - [Green Infrastructure Map](https://designatedsites.naturalengland.org.uk/GreenInfrastructure/Map.aspx), Natural England
 - [People and Nature Survey for England](https://www.gov.uk/government/collections/people-and-nature-survey-for-england), Natural England
