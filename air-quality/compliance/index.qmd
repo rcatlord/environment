@@ -22,30 +22,30 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 library(tidyverse) ; library(reactable)
 
-# Nitrogen Dioxide annual mean Zone Agglomeration 2021
+# Nitrogen Dioxide annual mean Zone Agglomeration 2022
 # Source: DEFRA
-# URL: https://compliance-data.defra.gov.uk/datasets/Defra::nitrogen-dioxide-annual-mean-zone-agglomeration-2021/explore
-no2_annual <- read_csv("data/Nitrogen_Dioxide_annual_mean_Zone_Agglomeration_2021.csv")
+# URL: https://compliance-data.defra.gov.uk/datasets/Defra::nitrogen-dioxide-annual-mean-zone-agglomeration-2022/explore
+no2_annual <- read_csv("data/Nitrogen_Dioxide_annual_mean_Zone_Agglomeration_2022.csv")
 
-# Nitrogen Dioxide hourly mean Zone Agglomeration 2021
+# Nitrogen Dioxide hourly mean Zone Agglomeration 2022
 # Source: DEFRA
-# URL: https://compliance-data.defra.gov.uk/datasets/Defra::nitrogen-dioxide-hourly-mean-zone-agglomeration-2021/explore
-no2_hourly <- read_csv("data/Nitrogen_Dioxide_hourly_mean_Zone_Agglomeration_2021.csv")
+# URL: https://compliance-data.defra.gov.uk/maps/Defra::nitrogen-dioxide-hourly-mean-zone-agglomeration-2022/explore
+no2_hourly <- read_csv("data/Nitrogen_Dioxide_hourly_mean_Zone_Agglomeration_2022.csv")
 
-# PM10 annual mean Zone Agglomeration 2021
+# PM10 annual mean Zone Agglomeration 2022
 # Source: DEFRA
-# URL: https://compliance-data.defra.gov.uk/datasets/Defra::pm10-annual-mean-zone-agglomeration-2021/explore
-pm10_annual <- read_csv("data/PM10_annual_mean_Zone_Agglomeration_2021.csv")
+# URL: https://compliance-data.defra.gov.uk/maps/Defra::pm10-annual-mean-zone-agglomeration-2022/explore
+pm10_annual <- read_csv("data/PM10_annual_mean_Zone_Agglomeration_2022.csv")
 
-# PM10 daily mean Zone Agglomeration 2021
+# PM10 daily mean Zone Agglomeration 2022
 # Source: DEFRA
-# URL: https://compliance-data.defra.gov.uk/datasets/Defra::pm10-daily-mean-zone-agglomeration-2021/explore
-pm10_daily <- read_csv("data/PM10_daily_mean_Zone_Agglomeration_2021.csv")
+# URL: https://compliance-data.defra.gov.uk/datasets/pm10-daily-mean-zone-agglomeration-2022
+pm10_daily <- read_csv("data/PM10_daily_mean_Zone_Agglomeration_2022.csv")
 
-# PM2.5 annual mean Zone Agglomeration 2021
+# PM2.5 annual mean Zone Agglomeration 2022
 # Source: DEFRA
-# URL: https://compliance-data.defra.gov.uk/datasets/Defra::pm2-5-annual-mean-zone-agglomeration-2021/explore
-pm25_annual <- read_csv("data/PM2_5_annual_mean_Zone_Agglomeration_2021.csv")
+# URL: https://compliance-data.defra.gov.uk/datasets/pm2-5-annual-mean-zone-agglomeration-2022
+pm25_annual <- read_csv("data/PM2_5_annual_mean_Zone_Agglomeration_2022.csv")
 
 df <- bind_rows(no2_annual, no2_hourly, pm10_annual, pm10_daily, pm25_annual) %>% 
   mutate(pollutant = case_when(str_detect(pollutant_metric, "Nitrogen") ~ "NO2",
@@ -63,7 +63,7 @@ df <- bind_rows(no2_annual, no2_hourly, pm10_annual, pm10_daily, pm25_annual) %>
   select(area_code = unique_code, area_name = name, pollutant, averaging_period, maximum_value, unit, uk_limit, who_limit)
 ```
 
-The UK is divided into 43 zones for air quality assessment. These tables show how they fared under the [UK's annual air quality compliance assessment](https://uk-air.defra.gov.uk/air-pollution/uk-eu-limits) in 2021.
+The UK is divided into 43 zones for air quality assessment. These tables show how they fared under the [UK's annual air quality compliance assessment](https://uk-air.defra.gov.uk/air-pollution/uk-eu-limits) in 2022.
 
 ### Nitrogen Dioxide (N0<sub>2</sub>)
 
