@@ -1,0 +1,13 @@
+{"ons":{
+"maptitle": "Woodland coverage by local authority, 2021",
+"varcolour": "Greens",
+"varunit": "% woodland",
+"displaydecimals": 0,
+"legenddecimals": 0,
+"breaks": "jenks",
+"dropticks": false,
+"numberBreaks": 5,
+"fillOpacity": 0.7,
+"backgroundColour": "#f2f3f0",
+"legendRectHeight": 8
+}}
