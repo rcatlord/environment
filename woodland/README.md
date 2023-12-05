@@ -9,7 +9,7 @@
 - [Standard Area Measurements (2021) for Administrative Areas in the United Kingdom](https://geoportal.statistics.gov.uk/datasets/standard-area-measurements-2021-for-administrative-areas-in-the-united-kingdom-v2/about), Office for National Statistics' Open Geography Portal    
 
 ### Method
-The percentage of local authority area covered by woodland was calculated following the method presented in [Office for National Statistics 2021](https://www.ons.gov.uk/economy/environmentalaccounts/articles/carbondioxideemissionsandwoodlandcoveragewhereyoulive/2021-10-21#measuring).
+The percentage of local authority area covered by woodland was calculated following the method presented in [Office for National Statistics (2021)](https://www.ons.gov.uk/economy/environmentalaccounts/articles/carbondioxideemissionsandwoodlandcoveragewhereyoulive/2021-10-21#measuring).
 
 1. Clip the National Forest Inventory (NFI) woodland map by Great Britain's Local Authority District boundaries and calculate the total area of woodland they contain.
 2. Combine the results with the Northern Ireland Woodland Register which provides the woodland area of each Local Government District.
