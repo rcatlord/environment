@@ -1,0 +1,90 @@
+---
+pagetitle: "Greenhouse gas emissions by type"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", dev = "svg")
+
+library(tidyverse) ; library(ggtext) ; library(ggokabeito) ; library(downloadthis)
+
+df <- read_csv("data/data.csv") %>% 
+  pivot_longer(-Year, names_to = "Gas", values_to = "Value") %>%
+  mutate(Year = ymd(Year, truncated = 2L),
+         Gas = fct_rev(fct_relevel(Gas, "Carbon dioxide (CO2)","Methane (CH4)","Nitrous oxide (N2O)",
+                           "Fluorinated gases (F gases)","Hydrofluorocarbons (HFC)","Sulphur hexafluoride (SF6)",
+                           "Perfluorocarbons (PFC)","Nitrogen Trifluoride (NF3)")))
+```
+
+```{r}
+plot <- ggplot(df, aes(x = Year, y = Value, fill = Gas)) + 
+  geom_area(position = "stack", key_glyph = draw_key_point) +
+  scale_fill_okabe_ito() +
+  scale_x_date(expand = c(0.005, 0.005),
+               breaks = seq(as.Date("1990-01-01"), as.Date("2022-01-01"), by = "3 years"),
+               date_labels = "%Y") +
+  scale_y_continuous(expand = c(0.005, 0.005), 
+                     limits = c(0, 900),
+                     position = "right") +
+  guides(fill = guide_legend(reverse = TRUE, nrow = 2,
+                             override.aes = list(shape = 21, size = 3))) +
+  labs(x = NULL, y = "Mt CO<sub>2</sub>e", colour = NULL,
+       title = "Carbon dioxide (CO<sub>2</sub>) accounts for the majority of GHG emissions<br><span style = font-size:10pt;color:#757575;'>Atmospheric emissions (territorial basis) by greenhouse gas type<br>United Kingdom, 1990-2022</span>",
+       caption = "Source: BEIS",
+       fill = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(plot.margin = unit(rep(0.5, 4), "cm"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line.x = element_line(colour = "#000000"),
+        plot.title.position = "plot",
+        plot.title = element_textbox(size = 15, lineheight = 1, width = unit(0.8, "npc"), margin = margin(b = 20)),
+        plot.caption = element_text(colour = "grey60", margin = margin(t = 10), size = 10),
+        axis.title.x = element_text(size = 10),
+        axis.title.y.right = element_markdown(size = 8, angle = 0, vjust = 1, margin = margin(l = -20)),
+        legend.position = "top",
+        legend.justification = "left",
+        legend.key.size = unit(0.2, "cm"),
+        legend.text = element_text(size = rel(0.6)))
+
+plot
+```
+
+<hr>
+
+#### Downloads
+
+```{r}
+plot %>% 
+  download_this( 
+    output_name = "plot",
+    output_extension = ".png",
+    button_label = "Chart",
+    has_icon = TRUE,
+    icon = "fas fa-chart-line"
+    )
+```
+
+```{r}
+download_file(
+  path = "data/data.csv",
+  output_name = "data",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  self_contained = FALSE
+)
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "R code",
+  has_icon = TRUE,
+  icon = "fas fa-code",
+  self_contained = FALSE
+)
+```
