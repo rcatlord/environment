@@ -8,7 +8,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, out.width = "100%", dev = "svg")
 
-library(tidyverse) ; library(ggtext) ; library(downloadthis)
+library(tidyverse) ; library(lubridate) ; library(ggtext) ; library(downloadthis)
 
 df <- read_csv("data/data.csv") %>% 
   pivot_longer(-Year, names_to = "Measure", values_to = "Value") %>%
@@ -27,7 +27,7 @@ plot <- ggplot(df, aes(x = Year, y = Value, colour = Measure)) +
                      position = "right") +
   scale_colour_manual(values = c("#206095", "#27A0cc", "#871a5b")) +
   labs(x = NULL, y = "Mt CO<sub>2</sub>e", colour = NULL,
-       title = "Consumption emissions are falling at a slower rate<br><span style = font-size:10pt;color:#757575;'>Greenhouse gas emissions on a <span style = 'color:#206095;'>territorial</span>, <span style = 'color:#27A0cc;'>residence</span> and <span style = 'color:#871a5b;'>consumption</span> basis<br>United Kingdom, 1990-2022</span>",
+       title = "Consumption emissions are falling at a slower rate<br><span style = 'font-size:10pt;color:#757575;'>Greenhouse gas emissions on a <span style = 'color:#206095;'>territorial</span>, <span style = 'color:#27A0cc;'>residence</span> and <span style = 'color:#871a5b;'>consumption</span> basis<br>United Kingdom, 1990-2022</span>",
        caption = "Source: DESNZ, ONS, DEFRA") +
   theme_minimal(base_size = 12) +
   theme(plot.margin = unit(rep(0.5, 4), "cm"),
@@ -42,6 +42,8 @@ plot <- ggplot(df, aes(x = Year, y = Value, colour = Measure)) +
     legend.position = "bottom")
 plot
 ```
+
+<hr>
 
 #### Downloads
 
