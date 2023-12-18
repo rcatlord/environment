@@ -46,17 +46,24 @@ Plot.plot({
 
 #### Download
 
+```{r}
+df <- read_csv("data/data.csv") %>% 
+  pivot_wider(names_from = Measure, values_from = Value)
+```
+
 <div class="btn-toolbar">
 ```{r}
-download_file(
-  path = "data/data.csv",
+df %>% 
+  download_this(
   output_name = "data",
+  output_extension = ".csv",
   button_label = "Data",
   has_icon = TRUE,
   icon = "fas fa-file-csv",
-  class = "me-1",
-  self_contained = TRUE
-)
+  class = "me-2",
+  self_contained = FALSE,
+  csv2 = FALSE
+  )
 ```
 
 ```{r}
