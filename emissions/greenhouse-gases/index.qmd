@@ -1,0 +1,77 @@
+---
+pagetitle: "Greenhouse gas emissions"
+format: 
+  html:
+    self-contained: true
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse) ; library(downloadthis)
+```
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot") 
+```
+
+```{ojs}
+data = FileAttachment("data/data.csv").csv({typed: true})
+```
+
+```{ojs}
+Plot.plot({
+  style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
+  width: Math.max(width, 550), height: 350, marginTop: 40, marginRight: 50,
+  x: {label: null, tickSize: 0},
+  y: {label: "Mt CO₂e", labelArrow: null, labelAnchor: "top", labelOffset: 50, nice: true, tickPadding: 15, tickSize: 0, grid: true, axis: "right"},
+  color: {
+    legend: true,
+    range: ["#1D70B8", "#F47738", "#177D4E"],
+    domain: ["Territorial","Residence","Consumption"],
+    style: {fontSize: "14px"}
+  },
+  marks: [
+    Plot.ruleY([400]),
+    Plot.lineY(data, {x: "Year", y: "Value", stroke: "Measure", strokeWidth: 3}),
+    Plot.tip(data, Plot.pointerX({x: "Year", y: "Value", title: (d) => [`${d3.timeFormat("%Y")(d.Year)}\n${(d.Measure)} emissions: ${d3.format(",.0f")(d.Value)} Mt CO2e`].join("   ")}))
+  ],
+  title: "Consumption emissions are falling at a slower rate",
+  subtitle: html`<p>Greenhouse gas emissions on a territorial, residence and consumption basis</br>United Kingdom, 1990-2022</p>`,
+  caption: html`<p style="font-family:'Open Sans, san-serif'; font-size:14px;">Sources: <a href="https://www.gov.uk/government/statistics/provisional-uk-greenhouse-gas-emissions-national-statistics-2022" target="_blank">DESNZ</a>; <a href="https://www.ons.gov.uk/economy/environmentalaccounts/datasets/ukenvironmentalaccountsatmosphericemissionsgreenhousegasemissionsbyeconomicsectorandgasunitedkingdom" target="_blank">ONS</a>; <a href="https://www.gov.uk/government/statistics/uks-carbon-footprint" target="_blank">DEFRA</a></p>`
+})
+```
+
+#### Download
+
+<div class="btn-toolbar">
+```{r}
+download_file(
+  path = "data/data.csv",
+  output_name = "data",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  class = "me-1",
+  self_contained = TRUE
+)
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "Pre-processing",
+  has_icon = TRUE,
+  icon = "fab fa-r-project",
+  self_contained = TRUE
+)
+```
+</div>
+
+<br>
+
+#### Further resources
+- [Measuring UK greenhouse gas emissions](https://www.ons.gov.uk/economy/environmentalaccounts/methodologies/measuringukgreenhousegasemissions), Office for National Statistics (December 2023)

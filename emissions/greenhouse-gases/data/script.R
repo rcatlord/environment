@@ -10,9 +10,9 @@ GET(url = "https://assets.publishing.service.gov.uk/media/642588293d885d000cdadf
 territorial <- read_xlsx(tmp, sheet = "Table1", skip = 4) %>% 
   filter(`NC Sector` == "Total greenhouse gases") %>% 
   select(-`NC Sector`) %>% 
-  pivot_longer(everything(), names_to = "Year", values_to = "value") %>% 
+  pivot_longer(everything(), names_to = "Year", values_to = "Value") %>% 
   mutate(Year = as.numeric(Year),
-         measure = "Territorial")
+         Measure = "Territorial")
 
 # Residence emissions
 # Source: Office for National Statistics
@@ -22,10 +22,10 @@ GET(url = "https://www.ons.gov.uk/file?uri=/economy/environmentalaccounts/datase
 residence <- read_xlsx(tmp, sheet = "GHG total ", range = "A4:AI27") %>% 
   filter(...3 == "Total greenhouse gas emissions") %>% 
   select(4:last_col()) %>% 
-  pivot_longer(everything(), names_to = "Year", values_to = "value") %>% 
+  pivot_longer(everything(), names_to = "Year", values_to = "Value") %>% 
   mutate(Year = as.numeric(Year),
-         value = value/1000, # Mt CO2e
-         measure = "Residence")
+         Value = Value/1000, # Mt CO2e
+         Measure = "Residence")
 
 # Carbon footprint emissions
 # Source: Department for Environment, Food & Rural Affairs
@@ -33,12 +33,11 @@ residence <- read_xlsx(tmp, sheet = "GHG total ", range = "A4:AI27") %>%
 tmp <- tempfile(fileext = ".ods")
 GET(url = "https://assets.publishing.service.gov.uk/media/64ca46236ae44e001311b3df/2020_Defra_results_UK_rev.ods", write_disk(tmp))
 consumption <- read_ods(tmp, sheet = "Dashboard_2020", range = "B3:C34") %>% 
-  rename(Year = 1, value = 2) %>% 
+  rename(Year = 1, Value = 2) %>% 
   mutate(Year = as.numeric(Year),
-         value = value/1000, # Mt CO2e
-         measure = "Consumption")
+         Value = Value/1000, # Mt CO2e
+         Measure = "Consumption")
 
 # Write results
-bind_rows(territorial, residence, consumption) %>% 
-  pivot_wider(names_from = measure, values_from = value) %>% 
+bind_rows(territorial, residence, consumption) %>%
   write_csv("data.csv")
