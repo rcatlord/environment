@@ -1,0 +1,83 @@
+---
+pagetitle: "Greenhouse gas emissions by type"
+format: 
+  html:
+    self-contained: true
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse) ; library(lubridate) ; library(downloadthis)
+```
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot") 
+```
+
+```{ojs}
+data = FileAttachment("data/data.csv").csv({typed: true})
+```
+
+```{ojs}
+order = d3.groupSort(data, g => g[31].Value, d => d.Gas).reverse()
+```
+
+```{ojs}
+Plot.plot({
+  style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
+  width: Math.max(width, 550), height: 350, marginTop: 40, marginRight: 50,
+  x: {label: null, tickSize: 0, tickFormat: d => d3.timeFormat("%Y")(d)},
+  y: {label: "Mt CO₂e", labelArrow: null, labelAnchor: "top", labelOffset: 50, nice: true, tickPadding: 15, tickSize: 0, grid: true, axis: "right"},
+  color: {
+    legend: true,
+    domain: order,
+    style: {fontSize: "14px"}
+  },
+  marks: [
+    Plot.ruleY([0]),
+    Plot.areaY(data, Plot.stackY({order: order}, {x: "Year", y: "Value", z: "Gas", fill: "Gas"})),
+  ],
+  title: "Carbon dioxide accounts for the majority of GHG emissions",
+  subtitle: html`<p>Atmospheric emissions (territorial basis) by greenhouse gas type</br>United Kingdom, 1990-2022</p>`,
+  caption: html`<p style="font-family:'Open Sans, san-serif'; font-size:14px;">Sources: <a href="https://beta.gss-data.org.uk/cube/explore?uri=http%3A%2F%2Fgss-data.org.uk%2Fdata%2Fclimate-change%2Fbeis-uk-greenhouse-gas-emissions-national-statistics-1990-to-2021%2Fuk-greenhouse-gas-emissions-national-statistics-1990-to-2021%23dataset-catalog-entry&order-by-component=http%253A%252F%252Fgss-data.org.uk%252Fdata%252Fclimate-change%252Fbeis-uk-greenhouse-gas-emissions-national-statistics-1990-to-2021%252Fuk-greenhouse-gas-emissions-national-statistics-1990-to-2021%2523dimension%252Fyear&order-direction=ASC" target="_blank">BEIS</a></p>`
+})
+```
+
+#### Download
+```{r}
+df <- read_csv("data/data.csv") %>% 
+  pivot_wider(names_from = Gas, values_from = Value) %>% 
+    mutate(Year = year(Year))
+```
+
+<div class="btn-toolbar">
+```{r}
+df %>% 
+  download_this(
+  output_name = "data",
+  output_extension = ".csv",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  class = "me-2",
+  self_contained = FALSE,
+  csv2 = FALSE
+  )
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "Pre-processing",
+  has_icon = TRUE,
+  icon = "fab fa-r-project",
+  self_contained = TRUE
+)
+```
+</div>
+
+<br>
