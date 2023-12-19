@@ -1,0 +1,76 @@
+---
+pagetitle: "Greenhouse gas emissions by industry"
+format: 
+  html:
+    self-contained: true
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse) ; library(lubridate) ; library(downloadthis)
+```
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot") 
+```
+
+```{ojs}
+data = FileAttachment("data/data.csv").csv({typed: true})
+```
+
+```{ojs}
+Plot.plot({
+  style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
+  width: Math.max(width, 550), height: 350, marginTop: 40, marginLeft: 60, marginRight: 150,
+  x: {label: null, tickSize: 0, tickFormat: d => d3.timeFormat("%Y")(d)},
+  y: {label: "Mt CO₂e", labelArrow: null, labelAnchor: "top", labelOffset: 50, ticks: 5, tickPadding: 15, tickSize: 0, grid: true},
+  color: {
+    legend: false,
+  },
+  marks: [
+    Plot.ruleY([0]),
+    Plot.lineY(data, {x: "Year", y: "Value", z: "Industry", stroke: "Industry", strokeWidth: 3}),
+    Plot.text(data, Plot.selectLast({x: "Year", y: "Value", z: "Industry", fill: "Industry", text: "Industry", textAnchor: "start", dx: 5, lineWidth: 20, fontSize: 12})),
+    Plot.tip(data, Plot.pointerX({x: "Year", y: "Value", title: (d) => [`${d3.timeFormat("%Y")(d.Year)}\n${(d.Industry)}: ${d3.format(",.0f")(d.Value)} Mt CO₂e`].join("   ")}))
+  ],
+  title: "Household emissions have been the largest contributor since 2015",
+  subtitle: html`<p>Greenhouse gas emissions (residence basis) for the five highest emitting industries and households</br>United Kingdom, 1990-2021</p>`,
+  caption: html`<p style="font-family:'Open Sans, san-serif'; font-size:14px;">Source: <a href="https://www.ons.gov.uk/economy/environmentalaccounts/datasets/ukenvironmentalaccountsatmosphericemissionsgreenhousegasemissionsbyeconomicsectorandgasunitedkingdom" target="_blank">Office for National Statistics</a></p>`
+})
+```
+
+#### Download
+
+<div class="btn-toolbar">
+```{r}
+read_csv("data/data.csv") %>% 
+  pivot_wider(names_from = Industry, values_from = Value) %>% 
+  mutate(Year = year(Year)) %>% 
+  download_this(
+  output_name = "data",
+  output_extension = ".csv",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  class = "me-2",
+  self_contained = FALSE,
+  csv2 = FALSE
+  )
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "Pre-processing",
+  has_icon = TRUE,
+  icon = "fab fa-r-project",
+  self_contained = TRUE
+)
+```
+</div>
+
+<br>
