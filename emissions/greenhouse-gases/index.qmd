@@ -25,7 +25,7 @@ data = FileAttachment("data/data.csv").csv({typed: true})
 Plot.plot({
   style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
   width: Math.max(width, 550), height: 350, marginTop: 40, marginRight: 50,
-  x: {label: null, tickSize: 0},
+  x: {label: null, tickSize: 0, tickFormat: d => d3.timeFormat("%Y")(d)},
   y: {label: "Mt CO₂e", labelArrow: null, labelAnchor: "top", labelOffset: 50, nice: true, tickPadding: 15, tickSize: 0, grid: true, axis: "right"},
   color: {
     legend: true,

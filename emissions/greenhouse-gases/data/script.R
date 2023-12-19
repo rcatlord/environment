@@ -1,6 +1,6 @@
 # Greenhouse gas emissions
 
-library(tidyverse) ; library(readODS) ; library(httr) ; library(readxl)
+library(tidyverse) ; library(readODS) ; library(httr) ; library(readxl) ; library(lubridate)
 
 # Territorial emissions
 # Source: Department for Energy Security and Net Zero and Department for Business, Energy & Industrial Strategy
@@ -40,4 +40,5 @@ consumption <- read_ods(tmp, sheet = "Dashboard_2020", range = "B3:C34") %>%
 
 # Write results
 bind_rows(territorial, residence, consumption) %>%
+  mutate(Year = ymd(Year, truncated = 2L)) %>%
   write_csv("data.csv")
