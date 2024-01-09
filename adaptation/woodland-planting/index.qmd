@@ -1,0 +1,78 @@
+---
+pagetitle: "New planting of UK woodlands"
+format: 
+  html:
+    self-contained: true
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse) ; library(lubridate) ; library(downloadthis)
+```
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot") 
+```
+
+```{ojs}
+data = FileAttachment("data/data.csv").csv({typed: true})
+```
+
+```{ojs}
+Plot.plot({
+  style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
+  width: Math.max(width, 550), height: 350, marginTop: 40, marginRight: 50,
+  x: {label: null, tickSize: 0, tickFormat: d => d3.timeFormat("%Y")(d)},
+  y: {label: "Thousand hectares", labelArrow: null, labelAnchor: "top", labelOffset: 50, nice: true, tickPadding: 15, tickSize: 0, grid: true, axis: "right"},
+  color: {
+    legend: true,
+    range: ["#1D70B8", "#F47738"],
+    domain: ["Conifers","Broadleaves"],
+    style: {fontSize: "14px"}
+  },
+  marks: [
+    Plot.ruleY([0]),
+    Plot.rectY(data, {x: "Year", y: "Value", interval: d3.utcYear, fill: "Group"}),
+    Plot.tip(data, Plot.pointerX({x: "Year", y: "Value", title: (d) => [`${d3.timeFormat("%Y")(d.Year)}\n${(d.Group)}: ${d3.format(",.2f")(d.Value)} thousand hectares`].join("   ")}))
+  ],
+  title: "40-45% of new woodland planting is broadleaf",
+  subtitle: html`<p>New planting of woodland, United Kingdom, 1976-2022</p>`,
+  caption: html`<p style="font-family:'Open Sans, san-serif'; font-size:14px;">Source: <a href="https://beta.gss-data.org.uk/download/live/20ef0579-3a2d-5010-a7ba-71d1b9978aad/gss-data-org-uk-forestry-statistics-2022-new-planting.zip?job%2Ftype=mut.download%2Fjob&job%2Fid=mut.cube%2Fcsv&uri=http%3A%2F%2Fgss-data.org.uk%2Fdata%2Fclimate-change%2Fforestry-research-forestry-statistics-2022-new-planting%2Fforestry-statistics-2022-new-planting%23dataset-catalog-entry" target="_blank">Forest Research</a></p>`
+})
+```
+
+#### Download
+
+<div class="btn-toolbar">
+```{r}
+read_csv("data/data.csv") %>% 
+  pivot_wider(names_from = Group, values_from = Value) %>% 
+  mutate(Year = year(Year)) %>% 
+  download_this(
+  output_name = "data",
+  output_extension = ".csv",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  class = "me-2",
+  self_contained = FALSE,
+  csv2 = FALSE
+  )
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "Pre-processing",
+  has_icon = TRUE,
+  icon = "fab fa-r-project",
+  self_contained = TRUE
+)
+```
+</div>
+
+<br>

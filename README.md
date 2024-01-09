@@ -8,4 +8,5 @@
 
 ## Adaptation
 
-- [Woodland coverage by local authority, 2021](https://rcatlord.github.io/environment/adaptation/woodland_coverage/)
+- [Woodland coverage by local authority, 2021](https://rcatlord.github.io/environment/adaptation/woodland-coverage/)
+- [New planting of UK woodlands, 1976-2022](https://rcatlord.github.io/environment/adaptation/woodland-planting/)
