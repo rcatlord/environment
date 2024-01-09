@@ -1,6 +1,8 @@
 ---
 pagetitle: 'Climate crisis in charts'
-output: html_document
+output:
+  html_document:
+    self_contained: yes
 editor_options: 
   chunk_output_type: console
 ---
@@ -45,7 +47,7 @@ ggplot(df, aes(x = date, y = average, group = 1)) +
         plot.subtitle = element_text(margin = margin(b = 25)),
         plot.caption = element_text(colour = "grey60", margin = margin(t = 20, b = -10), size = 12),
         plot.tag = element_text(size = 10),
-        plot.tag.position = c(0.2, 0.01)) +
+        plot.tag.position = c(0.3, 0.01)) +
   annotate("text", x = as.Date("1964-01-01"), y = 445, label = "Parts per million", size = 3) +
   geom_text(data = filter(df, date == last(date)),
             aes(label = paste0(format(date, "%b %Y"), "\n", round(average, 1), "ppm")),
