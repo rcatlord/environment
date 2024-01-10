@@ -1,0 +1,75 @@
+---
+pagetitle: "Surface water status"
+format: 
+  html:
+    self-contained: true
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse) ; library(lubridate) ; library(downloadthis)
+```
+
+```{ojs}
+Plot = import("https://esm.sh/@observablehq/plot") 
+```
+
+```{ojs}
+data = FileAttachment("data/data.csv").csv({typed: true})
+```
+
+```{ojs}
+Plot.plot({
+  style: {fontFamily: "Open Sans, san-serif", fontSize: "14px"},
+  width: Math.max(width, 550), height: 40, marginLeft: 0, marginTop: 10, marginRight: 20,
+  x: {axis: null, label: null},
+  color: {
+    legend: true,
+    domain: ["Bad","Poor","Moderate","Good","High"],
+    range: ["#AD001D","#FDAD61","#FFFFBF","#B7E186","#92C5DE"],
+    style: {fontSize: "14px"}
+  },
+  marks: [
+    Plot.barX(data, Plot.stackX({x: "Value", fill: "Classification", reverse: true})),
+    Plot.text(data, Plot.filter(d => d.Classification != "High", Plot.stackX({x: "Value", fill: "#000000", text: d => `${d3.format(".0f")(d.Value)}%`, inset: 1, reverse: true})))
+  ],
+  title: "16% of surface water bodies were of high or good ecological status",
+  subtitle: html`<p>Status of surface waters in England, 2019</p>`,
+  caption: html`<p style="font-family:'Open Sans, san-serif'; font-size:14px;">Source: <a href="https://www.gov.uk/government/statistics/england-biodiversity-indicators/21-surface-water-status" target="_blank">Environment Agency</a></p>`
+})
+```
+
+#### Download
+
+<div class="btn-toolbar">
+```{r}
+read_csv("data/data.csv") %>% 
+  pivot_wider(names_from = Classification, values_from = Value) %>% 
+  download_this(
+  output_name = "data",
+  output_extension = ".csv",
+  button_label = "Data",
+  has_icon = TRUE,
+  icon = "fas fa-file-csv",
+  class = "me-2",
+  self_contained = FALSE,
+  csv2 = FALSE
+  )
+```
+
+```{r}
+download_file(
+  path = "data/script.R",
+  output_name = "script",
+  button_label = "Pre-processing",
+  has_icon = TRUE,
+  icon = "fab fa-r-project",
+  self_contained = TRUE
+)
+```
+</div>
+
+<br>
