@@ -8,7 +8,7 @@
 
 ## Impacts
 
-- [Surfacew water status, 2019](https://rcatlord.github.io/environment/impacts/surface-water-status/)
+- [Surface water status, 2019](https://rcatlord.github.io/environment/impacts/surface-water-status/)
 
 ## Adaptation
 
