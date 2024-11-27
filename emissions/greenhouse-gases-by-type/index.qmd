@@ -14,7 +14,7 @@ library(tidyverse) ; library(lubridate) ; library(downloadthis)
 ```
 
 ```{ojs}
-Plot = import("https://esm.sh/@observablehq/plot") 
+Plot = import("https://cdn.jsdelivr.net/npm/@observablehq/plot/+esm")
 ```
 
 ```{ojs}
